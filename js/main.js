@@ -13,13 +13,7 @@
     }
 
     if(localStorage.getItem("enable-sound") == "checked") {
-        var el = $("[name=enable-sound]")[0];
-        if(Notification.permission !== "granted") {
-            Notification.requestPermission();
-            el.checked = false;
-        } else {
-            el.checked = true;
-        }
+        localStorage.setItem("enable-sound", "");
     }
 
     
@@ -113,7 +107,8 @@
                 body: body,
 				badge: "https://is-the-snapshot.live/images/icons/logo.png",
 				icon: "https://is-the-snapshot.live/images/icons/logo.png",
-				image: "https://is-the-snapshot.live/images/icons/logo.png"
+				image: "https://is-the-snapshot.live/images/icons/logo.png",
+                vibrate: [200, 100, 200],
             });
         }
     }
