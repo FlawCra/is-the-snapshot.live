@@ -135,10 +135,4 @@
         return (await a.text()).includes('isLiveBroadcast');
     }
 
-    // new Date() 1 week in the future
-    var current = new Date(new Date().getTime() + 604800000);
-    current = current.toISOString().split('T')[0];
-    var current_date = new Date(current);
-
-
 })(jQuery);
