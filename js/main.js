@@ -11,6 +11,17 @@
             el.checked = true;
         }
     }
+
+    if(localStorage.getItem("enable-sound") == "checked") {
+        var el = $("[name=enable-sound]")[0];
+        if(Notification.permission !== "granted") {
+            Notification.requestPermission();
+            el.checked = false;
+        } else {
+            el.checked = true;
+        }
+    }
+
     
     
     $("[name=enable-notifications]").change((el) => {
@@ -20,6 +31,15 @@
             return;
         }
         localStorage.setItem("enable-notifications",el.currentTarget.checked ? "checked" : "");
+    });
+
+    $("[name=enable-sound]").change((el) => {
+        if(Notification.permission !== "granted") {
+            Notification.requestPermission();
+            el.currentTarget.checked = false;
+            return;
+        }
+        localStorage.setItem("enable-sound",el.currentTarget.checked ? "checked" : "");
     });
 
     var url = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
@@ -76,10 +96,13 @@
     }
 
     var snapshot_live_event = async (snapshot_name) => {
-
-        new Audio(live_sound).play();
+        play_audio();
         send_notification("Snapshot Live!", `The snapshot ${snapshot_name} is live!`);
+    }
 
+    var play_audio = async () => {
+        if(!localStorage.getItem("enable-sound") || localStorage.getItem("enable-sound") != "checked") return;
+        new Audio(live_sound).play();
     }
 
     var send_notification = async (title, body) => {
