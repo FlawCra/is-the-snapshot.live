@@ -630,8 +630,6 @@ input.input100 {
   border-radius: 5px;
 }
 
-@import url('https://fonts.flawcra.cc/NotoSans/stylesheet.css');
-
 .mc-button__green-s1 {
 	background: #3b8526;
 	box-shadow: inset 0 4px #6bc349,inset 0 -4px #2a631c,0 4px rgb(0 0 0 / 25%);
@@ -651,5 +649,4 @@ input.input100 {
 	text-transform: uppercase;
 	text-decoration: none;
 	transition: all .25s,opacity .75s .5s;
-	font-family: 'Noto Sans';
 }
