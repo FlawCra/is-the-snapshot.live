@@ -52,10 +52,12 @@ Sentry.init({
     var latest_snapshot_released = null;
     var not_live = `It's not live yet 😔`;
     var live_now = `It's live now! 🎉`;
-    
-    var res = await fetch(url);
-    var json = await res.json();
-    latest_snapshot = json.latest.snapshot;
+    var first_run = async () => {
+        var res = await fetch(url);
+        var json = await res.json();
+        latest_snapshot = json.latest.snapshot;
+    };
+    first_run();
     
     var loop = setInterval(async function () {
         var res = await fetch(url);
