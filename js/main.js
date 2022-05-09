@@ -48,6 +48,7 @@ Sentry.init({
     var phoenix_stream = document.getElementById("phoenix_stream");
     var buttons = document.getElementById("buttons");
     var first_button = true;
+    var buttons_shown = false;
     var latest_snapshot = "";
     var latest_snapshot_released = null;
     var not_live = `It's not live yet 😔`;
@@ -96,22 +97,28 @@ Sentry.init({
         if(live) {
             livetext.innerText = live_now;
             latest.innerText = `Snapshot: ${snapshot_name}`;
-            show_buttons(snapshot_name);
+            buttons_shown = false;
+            await show_buttons(snapshot_name);
             
             play_audio();
             send_notification("Snapshot Live!", `The snapshot ${snapshot_name} is live!`);
         } else {
             livetext.innerText = not_live;
             latest.innerText = `Snapshot: ${snapshot_name}`;
-            show_buttons(snapshot_name);
+            if(!buttons_shown) await show_buttons(snapshot_name);
         }
     }
 
     var show_buttons = async (snapshot_name) => {
+        first_button = true;
+        buttons.innerHTML = "";
+
         var regex = /([0-9][0-9]w[0-9][0-9])[a-z]/g
         var match = regex.exec(snapshot_name);
         if(await check_url("https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a")) add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
         if(await check_url("https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/"+match[1]+"a")) add_button("View on Tis", "https://tisawesomeness.github.io/snapshots/"+match[1]+"a");
+    
+        buttons_shown = true;
     }
 
     var play_audio = async () => {
