@@ -7,8 +7,6 @@ Sentry.init({
     // We recommend adjusting this value in production
     tracesSampleRate: 1.0,
   });
-(async function ($) {
-    "use strict";
 
     if(localStorage.getItem("enable-notifications") == "checked") {
         var el = $("[name=enable-notifications]")[0];
@@ -165,5 +163,3 @@ Sentry.init({
         let a = await fetch(`https://cors.flawcra.cc/?https://www.twitch.tv/phoenixsclive`);
         return (await a.text()).includes('isLiveBroadcast');
     }
-
-})(jQuery);
