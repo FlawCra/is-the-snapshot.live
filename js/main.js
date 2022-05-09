@@ -109,6 +109,7 @@
 
     var add_button = async (text, link) => {
         if(!first_button) buttons.innerHTML += "<br>";
+        first_button = false;
         buttons.innerHTML += `<a class="mc-button__primary mc-button__green-s1" href="${link}" aria-label="${text}" data-aem-contentname="${text}" target="_blank">${text}</a>`
     }
 
