@@ -1,4 +1,12 @@
-
+Sentry.init({
+    dsn: "https://56f254157dc44100bcef759734ef6cbd@sentry.flawcra.cc/3",
+    integrations: [new Integrations.BrowserTracing()],
+  
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
 (async function ($) {
     "use strict";
 
@@ -99,7 +107,7 @@
         }
     }
 
-    var show_buttons = (snapshot_name) => {
+    var show_buttons = async (snapshot_name) => {
         var regex = /([0-9][0-9]w[0-9][0-9])[a-z]/g
         var match = regex.exec(snapshot_name);
         if(await check_url("https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a")) add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
