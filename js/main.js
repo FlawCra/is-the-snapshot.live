@@ -88,18 +88,22 @@
         if(live) {
             livetext.innerText = live_now;
             latest.innerText = `Snapshot: ${snapshot_name}`;
-            var regex = /([0-9][0-9]w[0-9][0-9])[a-z]/g
-            var match = regex.exec(snapshot_name);
-
-            if(await check_url("https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a")) add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
-            if(await check_url("https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/"+match[1]+"a")) add_button("View on Tis", "https://tisawesomeness.github.io/snapshots/"+match[1]+"a");
-
+            show_buttons(snapshot_name);
+            
             play_audio();
             send_notification("Snapshot Live!", `The snapshot ${snapshot_name} is live!`);
         } else {
             livetext.innerText = not_live;
             latest.innerText = `Snapshot: ${snapshot_name}`;
+            show_buttons(snapshot_name);
         }
+    }
+
+    var show_buttons = (snapshot_name) => {
+        var regex = /([0-9][0-9]w[0-9][0-9])[a-z]/g
+        var match = regex.exec(snapshot_name);
+        if(await check_url("https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a")) add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
+        if(await check_url("https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/"+match[1]+"a")) add_button("View on Tis", "https://tisawesomeness.github.io/snapshots/"+match[1]+"a");
     }
 
     var play_audio = async () => {
