@@ -1,6 +1,6 @@
 Sentry.init({
     dsn: "https://56f254157dc44100bcef759734ef6cbd@sentry.flawcra.cc/3",
-    integrations: [new Integrations.BrowserTracing()],
+    integrations: [new Sentry.BrowserTracing()],
   
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
