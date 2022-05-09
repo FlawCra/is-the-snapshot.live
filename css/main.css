@@ -629,3 +629,24 @@ input.input100 {
   border-width: 10px;
   border-radius: 5px;
 }
+
+.mc-button__green-s1 {
+	background: #3b8526;
+	box-shadow: inset 0 4px #6bc349,inset 0 -4px #2a631c,0 4px rgb(0 0 0 / 25%);
+	color: #fff;
+	text-shadow: 0 1px 0 #2a631c;
+}
+
+.mc-button__primary {
+	padding: 15px 24px;
+  margin-top: 30px;
+  margin: 5px;
+	border: none;
+	font-size: 1.125rem;
+	line-height: 75px;
+	font-weight: 700;
+	letter-spacing: .03em;
+	text-transform: uppercase;
+	text-decoration: none;
+	transition: all .25s,opacity .75s .5s;
+}
