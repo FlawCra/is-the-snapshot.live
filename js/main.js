@@ -1,11 +1,14 @@
 Sentry.init({
     dsn: "https://56f254157dc44100bcef759734ef6cbd@sentry.flawcra.cc/3",
     integrations: [new Sentry.BrowserTracing()],
-  
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
-    tracesSampleRate: 1.0,
+    beforeSend(event, hint) {
+        // Check if it is an exception, and if so, show the report dialog
+        if (event.exception) {
+          Sentry.showReportDialog({ eventId: event.event_id });
+        }
+        return event;
+      },
+    tracesSampleRate: 0.5,
   });
 
     if(localStorage.getItem("enable-notifications") == "checked") {
