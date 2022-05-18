@@ -199,7 +199,7 @@ Sentry.init({
 
     var check_url = async (url, on_success = null) => {
         var request = await fetch(url);
-        if(on_success) on_success();
+        if(on_success && request.status == 200) on_success();
         return (request.status == 200) ? true : false;
     }
 
