@@ -126,10 +126,10 @@ Sentry.init({
             var match = snapshot_regex.exec(snapshot_name);
             while(!match) match = snapshot_regex.exec(snapshot_name);
             check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-${match[1]}a`, () => {
-                await add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
+                add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
             });
             check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1]}a`, () => {
-                await add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1]}a`);
+                add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1]}a`);
             });
         } else if(pre_regex.test(snapshot_name)) {
             var match = pre_regex.exec(snapshot_name);
