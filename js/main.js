@@ -53,38 +53,38 @@ Sentry.init({
     var latest_snapshot_released = null;
     var not_live = `It's not live yet 😔`;
     var live_now = `It's live now! 🎉`;
+    var loop;
     var first_run = async () => {
         var res = await fetch(url);
         var json = await res.json();
         latest_snapshot = json.latest.snapshot;
+        loop = setInterval(async function () {
+            var res = await fetch(url);
+            var json = await res.json();
+            if(FlawCraLIB.getParameterByName("snap", location.href)) {
+                var snapshot = FlawCraLIB.getParameterByName("snap", location.href);
+                if(await check(json, snapshot)) {
+                    snapshot_event(true, snapshot);
+                    clearInterval(loop);
+                    return;
+                } else {
+                    snapshot_event(false, snapshot);
+                    return;
+                }
+                
+            }
+    
+            if(await check(json)) {
+                latest_snapshot = json.latest.snapshot;
+                snapshot_event(true, latest_snapshot);
+                add_phoenix_stream();
+                clearInterval(loop);
+            } else {
+                snapshot_event(false, json.latest.snapshot);
+            }
+        }, 1500);
     };
     first_run();
-    
-    var loop = setInterval(async function () {
-        var res = await fetch(url);
-        var json = await res.json();
-        if(FlawCraLIB.getParameterByName("snap", location.href)) {
-            var snapshot = FlawCraLIB.getParameterByName("snap", location.href);
-            if(await check(json, snapshot)) {
-                snapshot_event(true, snapshot);
-                clearInterval(loop);
-                return;
-            } else {
-                snapshot_event(false, snapshot);
-                return;
-            }
-            
-        }
-
-        if(await check(json)) {
-            latest_snapshot = json.latest.snapshot;
-            snapshot_event(true, latest_snapshot);
-            add_phoenix_stream();
-            clearInterval(loop);
-        } else {
-            snapshot_event(false, json.latest.snapshot);
-        }
-    }, 1500);
 
     var add_phoenix_stream = async () => {
         var phoenix_live = await is_phoenix_live();
