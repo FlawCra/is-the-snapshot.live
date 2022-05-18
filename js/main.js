@@ -119,54 +119,54 @@ Sentry.init({
         first_button = true;
         buttons.innerHTML = "";
 
-        var snapshot_regex = /([0-9][0-9]w[0-9][0-9])[a-z]*/g;
+        var snapshot_regex = /([0-9][0-9]w[0-9][0-9])[k_url\("(.*)"\)\) a-z]*/g;
         var pre_regex = /([0-9]\.[0-9][0-9](\.[0-9])?)-pre([0-9][0-9]?)/g;
         var rc_regex = /([0-9]\.[0-9][0-9](\.[0-9])?)-rc([0-9][0-9]?)/g;
         if(snapshot_regex.test(snapshot_name)) {
             var match = snapshot_regex.exec(snapshot_name);
             while(!match) match = snapshot_regex.exec(snapshot_name);
-            if(await check_url("https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a")) {
+            check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-${match[1]}a`, () => {
                 await add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
-            }
-            if(await check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1]}a`)) {
+            });
+            check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1]}a`, () => {
                 await add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1]}a`);
-            }
+            });
         } else if(pre_regex.test(snapshot_name)) {
             var match = pre_regex.exec(snapshot_name);
             while(!match) match = pre_regex.exec(snapshot_name);
-            if(await check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-${match[1].replace(".","-")}-pre-release-${match[3]}`)) {
-                await add_button("View on Minecraft.net", `https://www.minecraft.net/en-us/article/minecraft-${match[1].replace(".","-")}-pre-release-${match[3]}`);
-            }
-            if(await check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1].replace(".","-")}-pre${match[3]}`)) {
-                await add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1].replace(".","-")}-pre${match[3]}`);
-            }
+            check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-${match[1].replace(".","-")}-pre-release-${match[3]}`, () => {
+                add_button("View on Minecraft.net", `https://www.minecraft.net/en-us/article/minecraft-${match[1].replace(".","-")}-pre-release-${match[3]}`);
+            });
+            check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1].replace(".","-")}-pre${match[3]}`, () => {
+                add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1].replace(".","-")}-pre${match[3]}`);
+            });
         } else if(rc_regex.test(snapshot_name)) {
             var match = rc_regex.exec(snapshot_name);
             while(!match) match = rc_regex.exec(snapshot_name);
-            if(await check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-${match[1].replace(".","-")}-release-candidate-${match[3]}`)) {
-                await add_button("View on Minecraft.net", `https://www.minecraft.net/en-us/article/minecraft-${match[1].replace(".","-")}-release-candidate${match[3]}`);
-            }
-            if(await check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1].replace(".","-")}-pre${match[3]}`)) {
-                await add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1].replace(".","-")}-pre${match[3]}`);
-            }
+            check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-${match[1].replace(".","-")}-release-candidate-${match[3]}`, () => {
+                add_button("View on Minecraft.net", `https://www.minecraft.net/en-us/article/minecraft-${match[1].replace(".","-")}-release-candidate${match[3]}`);
+            });
+            check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1].replace(".","-")}-rc${match[3]}`, () => {
+                add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1].replace(".","-")}-rc${match[3]}`);
+            });
         }
         
     
         buttons_shown = true;
     }
 
-    var live_audio = async () => {
+    var live_audio = () => {
         if(!localStorage.getItem("enable-sound") || localStorage.getItem("enable-sound") != "checked") return;
         play_sound(live_sound, true);
     }
 
-    var add_button = async (text, link) => {
+    var add_button = (text, link) => {
         if(!first_button) buttons.innerHTML += "<br>";
         first_button = false;
         buttons.innerHTML += `<a class="mc-button__primary mc-button__green-s1" href="${link}" aria-label="${text}" data-aem-contentname="${text}" target="_blank">${text}</a>`
     }
 
-    var send_notification = async (title, body) => {
+    var send_notification = (title, body) => {
         if(!localStorage.getItem("enable-notifications") || localStorage.getItem("enable-notifications") != "checked") return;
         if(!("Notification" in window)) return;
         if(Notification.permission === "granted") {
@@ -180,7 +180,7 @@ Sentry.init({
         }
     }
 
-    var check = async (data, snapshot_override = null) => {
+    var check = (data, snapshot_override = null) => {
         for(var _ of data.versions) {
             if(_.id == snapshot_override) {
                 var bool = new Date() > new Date(_.releaseTime);
@@ -197,8 +197,9 @@ Sentry.init({
         return false;
     }
 
-    var check_url = async (url) => {
+    var check_url = async (url, on_success = null) => {
         var request = await fetch(url);
+        if(on_success) on_success();
         return (request.status == 200) ? true : false;
     }
 
