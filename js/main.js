@@ -35,17 +35,14 @@ Sentry.init({
     });
 
     $("[name=enable-sound]").change((el) => {
-        if(Notification.permission !== "granted") {
-            Notification.requestPermission();
-            el.currentTarget.checked = false;
-            return;
-        }
+        el.currentTarget.checked ? play_sound(sound_on) : play_sound(sound_off);
         localStorage.setItem("enable-sound",el.currentTarget.checked ? "checked" : "");
     });
 
     var url = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
     var live_sound = "https://cdn.flawcra.cc/12/DATA/60ac5f5dae9a5c2b877cdd58988a1e32e5b5a0445a54210937fa28fa66c946f0c4591e5b0181f4d97410814d3f048cd11b15a512ae6d6dce5fa38035e3432b61/689394792700025409/snapshot_live.wav";
-    var live_sound_obj = new Audio(live_sound);
+    var sound_on = "https://cdn.flawcra.cc/11/DATA/87e5820891f6dd67cda5454098dfb8d71371033416eb75e10fd6fefa7857cd3f5ab68ba9758d542af53574fff316a6397d3bc59afe86dbf3865b748080a1cb7e/346856869701071056/enable_sound.wav";
+    var sound_off = "https://cdn.flawcra.cc/10/DATA/87e5820891f6dd67cda5454098dfb8d71371033416eb75e10fd6fefa7857cd3f5ab68ba9758d542af53574fff316a6397d3bc59afe86dbf3865b748080a1cb7e/448419079309442157/disable_sound.wav";
     var livetext = document.getElementById("livetext");
     var latest = document.getElementById("latest");
     var phoenix_stream = document.getElementById("phoenix_stream");
@@ -96,6 +93,13 @@ Sentry.init({
         }
     }
 
+    var play_sound = async (url, loud = false) => {
+        var obj = new Audio(url);
+        obj.volume = loud ? 0.25 : 0.05;
+        await obj.load();
+        obj.play();
+    }
+
     var snapshot_event = async (live,snapshot_name) => {
         if(live) {
             livetext.innerText = live_now;
@@ -103,7 +107,7 @@ Sentry.init({
             buttons_shown = false;
             await show_buttons(snapshot_name);
             
-            play_audio();
+            live_audio();
             send_notification("Snapshot Live!", `The snapshot ${snapshot_name} is live!`);
         } else {
             livetext.innerText = not_live;
@@ -118,15 +122,15 @@ Sentry.init({
 
         var regex = /([0-9][0-9]w[0-9][0-9])[a-z]/g
         var match = regex.exec(snapshot_name);
-        if(await check_url("https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a")) add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
-        if(await check_url("https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/"+match[1]+"a")) add_button("View on Tis", "https://tisawesomeness.github.io/snapshots/"+match[1]+"a");
+        if(await check_url("https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a")) await add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
+        if(await check_url("https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/"+match[1]+"a")) await add_button("View on Tis", "https://tisawesomeness.github.io/snapshots/"+match[1]+"a");
     
         buttons_shown = true;
     }
 
-    var play_audio = async () => {
+    var live_audio = async () => {
         if(!localStorage.getItem("enable-sound") || localStorage.getItem("enable-sound") != "checked") return;
-        live_sound_obj.play();
+        play_sound(live_sound, true);
     }
 
     var add_button = async (text, link) => {
