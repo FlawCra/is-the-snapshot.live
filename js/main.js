@@ -96,7 +96,9 @@ Sentry.init({
     var play_sound = async (url, loud = false) => {
         var obj = new Audio(url);
         obj.volume = loud ? 0.25 : 0.05;
-        obj.play();
+        try {
+            obj.play();
+        } catch (ignored) { }
     }
 
     var snapshot_event = async (live,snapshot_name) => {
