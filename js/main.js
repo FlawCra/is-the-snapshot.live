@@ -39,7 +39,7 @@ Sentry.init({
         localStorage.setItem("enable-sound",el.currentTarget.checked ? "checked" : "");
     });
 
-    var url = "https://cors.flawcra.cc/?https://launchermeta.mojang.com/mc/game/version_manifest.json";
+    var url = "https://cors.flawcra.cc/?https://piston-meta.mojang.com/mc/game/version_manifest_v2.json;
     var live_sound = "https://cdn.flawcra.cc/12/DATA/60ac5f5dae9a5c2b877cdd58988a1e32e5b5a0445a54210937fa28fa66c946f0c4591e5b0181f4d97410814d3f048cd11b15a512ae6d6dce5fa38035e3432b61/689394792700025409/snapshot_live.wav";
     var sound_on = "https://cdn.flawcra.cc/11/DATA/87e5820891f6dd67cda5454098dfb8d71371033416eb75e10fd6fefa7857cd3f5ab68ba9758d542af53574fff316a6397d3bc59afe86dbf3865b748080a1cb7e/346856869701071056/enable_sound.wav";
     var sound_off = "https://cdn.flawcra.cc/10/DATA/87e5820891f6dd67cda5454098dfb8d71371033416eb75e10fd6fefa7857cd3f5ab68ba9758d542af53574fff316a6397d3bc59afe86dbf3865b748080a1cb7e/448419079309442157/disable_sound.wav";
