@@ -1,6 +1,9 @@
 Sentry.init({
     dsn: "https://56f254157dc44100bcef759734ef6cbd@sentry.flawcra.cc/3",
-    integrations: [new Sentry.BrowserTracing()],
+    integrations: [
+        new Sentry.BrowserTracing(),
+        new Sentry.Replay(),
+    ],
     beforeSend(event, hint) {
         // Check if it is an exception, and if so, show the report dialog
         if (event.exception) {
