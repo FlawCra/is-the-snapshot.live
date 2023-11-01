@@ -125,11 +125,11 @@ Sentry.init({
         if(snapshot_regex.test(snapshot_name)) {
             var match = snapshot_regex.exec(snapshot_name);
             while(!match) match = snapshot_regex.exec(snapshot_name);
-            check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-${match[1]}a`, () => {
-                add_button("View on Minecraft.net", "https://www.minecraft.net/en-us/article/minecraft-snapshot-"+match[1]+"a");
+            check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-snapshot-${match[0]}`, () => {
+                add_button("View on Minecraft.net", `https://www.minecraft.net/en-us/article/minecraft-snapshot-${match[0]}`);
             });
-            check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1]}a`, () => {
-                add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1]}a`);
+            check_url(`https://cors.flawcra.cc/?https://tis.codes/snapshots/${match[0]}`, () => {
+                add_button("View on Tis", `https://tis.codes/snapshots/${match[0]}`);
             });
         } else if(pre_regex.test(snapshot_name)) {
             var match = pre_regex.exec(snapshot_name);
@@ -137,8 +137,8 @@ Sentry.init({
             check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-${match[1].replaceAll(".","-")}-pre-release-${match[3]}`, () => {
                 add_button("View on Minecraft.net", `https://www.minecraft.net/en-us/article/minecraft-${match[1].replaceAll(".","-")}-pre-release-${match[3]}`);
             });
-            check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1].replaceAll(".","-")}-pre${match[3]}`, () => {
-                add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1].replaceAll(".","-")}-pre${match[3]}`);
+            check_url(`https://cors.flawcra.cc/?https://tis.codes/snapshots/${match[1].replaceAll(".","-")}-pre${match[3]}`, () => {
+                add_button("View on Tis", `https://tis.codes/snapshots/${match[1].replaceAll(".","-")}-pre${match[3]}`);
             });
         } else if(rc_regex.test(snapshot_name)) {
             var match = rc_regex.exec(snapshot_name);
@@ -146,8 +146,8 @@ Sentry.init({
             check_url(`https://cors.flawcra.cc/?https://www.minecraft.net/en-us/article/minecraft-${match[1].replaceAll(".","-")}-release-candidate-${match[3]}`, () => {
                 add_button("View on Minecraft.net", `https://www.minecraft.net/en-us/article/minecraft-${match[1].replaceAll(".","-")}-release-candidate-${match[3]}`);
             });
-            check_url(`https://cors.flawcra.cc/?https://tisawesomeness.github.io/snapshots/${match[1].replaceAll(".","-")}-rc${match[3]}`, () => {
-                add_button("View on Tis", `https://tisawesomeness.github.io/snapshots/${match[1].replaceAll(".","-")}-rc${match[3]}`);
+            check_url(`https://cors.flawcra.cc/?https://tis.codes/snapshots/${match[1].replaceAll(".","-")}-rc${match[3]}`, () => {
+                add_button("View on Tis", `https://tis.codes/snapshots/${match[1].replaceAll(".","-")}-rc${match[3]}`);
             });
         }
         
