@@ -1,23 +1,3 @@
-try {
-    Sentry.init({
-        dsn: "https://56f254157dc44100bcef759734ef6cbd@sentry.flawcra.cc/3",
-        integrations: [
-            new Sentry.BrowserTracing(),
-            new Sentry.Replay(),
-        ],
-        beforeSend(event, hint) {
-            // Check if it is an exception, and if so, show the report dialog
-            if (event.exception) {
-                Sentry.showReportDialog({ eventId: event.event_id });
-            }
-            return event;
-        },
-        tracesSampleRate: 0.5,
-    });
-} catch (e) {
-    console.error(e);
-}
-
     if(localStorage.getItem("enable-notifications") == "checked") {
         var el = $("[name=enable-notifications]")[0];
         if(Notification.permission !== "granted") {
@@ -62,11 +42,11 @@ try {
     var live_now = `It's live now! 🎉`;
     var loop;
     var first_run = async () => {
-        var res = await fetch(url);
+        var res = await fetch(`${url}&${new Date().getTime()}`);
         var json = await res.json();
         latest_snapshot = json.latest.snapshot;
         loop = setInterval(async function () {
-            var res = await fetch(url);
+            var res = await fetch(`${url}&${new Date().getTime()}`);
             var json = await res.json();
             if(FlawCraLIB.getParameterByName("snap", location.href)) {
                 var snapshot = FlawCraLIB.getParameterByName("snap", location.href);
